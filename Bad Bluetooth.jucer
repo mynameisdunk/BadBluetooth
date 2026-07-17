@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="gwggQI" name="Bad Bluetooth" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="DunkBuilt"
+              pluginManufacturerCode="DUNK" pluginCode="BBTH" cppLanguageStandard="latest">
+  <MAINGROUP id="lSuyV6" name="Bad Bluetooth">
+    <GROUP id="{B4BCED7C-3B6E-5F0D-5321-F6DAD703F016}" name="Assets">
+      <FILE id="MPnHPI" name="GoogleSansCode-Bold.ttf" compile="0" resource="1"
+            file="../../../Documents/FONTS/Google_Sans_Code/static/GoogleSansCode-Bold.ttf"/>
+      <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
+    </GROUP>
+    <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="VqKX9C" name="ScaleFactoring.h" compile="0" resource="0"
+            file="Source/ScaleFactoring.h"/>
+      <FILE id="kUdGfa" name="FrameAssembly.cpp" compile="1" resource="0"
+            file="Source/FrameAssembly.cpp"/>
+      <FILE id="gHjMkz" name="FrameAssembly.h" compile="0" resource="0" file="Source/FrameAssembly.h"/>
+      <FILE id="yus4LN" name="AnalysisFilter.cpp" compile="1" resource="0"
+            file="Source/AnalysisFilter.cpp"/>
+      <FILE id="k66gXt" name="AnalysisFilter.h" compile="0" resource="0"
+            file="Source/AnalysisFilter.h"/>
+      <FILE id="Adbl1W" name="CircularBuffer.cpp" compile="1" resource="0"
+            file="Source/CircularBuffer.cpp"/>
+      <FILE id="nEmLcM" name="CircularBuffer.h" compile="0" resource="0"
+            file="Source/CircularBuffer.h"/>
+      <FILE id="T8eVNT" name="Windowing.cpp" compile="1" resource="0" file="Source/Windowing.cpp"/>
+      <FILE id="JIo1qW" name="Windowing.h" compile="0" resource="0" file="Source/Windowing.h"/>
+      <FILE id="kjobWE" name="LookAndFeel.cpp" compile="1" resource="0" file="Source/LookAndFeel.cpp"/>
+      <FILE id="sEILLY" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>
+      <FILE id="aFJOcM" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters.cpp"/>
+      <FILE id="RfqFYD" name="Parameters.h" compile="0" resource="0" file="Source/Parameters.h"/>
+      <FILE id="gWYOSO" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="FyJu7B" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="hew9F8" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="dJgoiE" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="BypFTI" name="RotaryKnob.cpp" compile="1" resource="0" file="Source/RotaryKnob.cpp"/>
+      <FILE id="etU3pJ" name="RotaryKnob.h" compile="0" resource="0" file="Source/RotaryKnob.h"/>
+      <FILE id="bFpVe0" name="SBCParameters.h" compile="0" resource="0" file="Source/SBCParameters.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors_headless" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Bad Bluetooth"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="Bad Bluetooth"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors_headless" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
