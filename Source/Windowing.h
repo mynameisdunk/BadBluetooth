@@ -15,7 +15,7 @@ class Windower{
         for (int i = 0; i <79; i++){
             proto8Samples[i] = (samples[i] * proto8SampleCoeff[i]);
         }
-        
+        return proto8Samples;
     };
     
     void reset();
@@ -63,7 +63,7 @@ class Windower{
      
      */
     
-    std::array<float, 80> proto8Samples;
+    std::array<float, 80> proto8Samples{};
     
     int nrofSubbands = 8;
     

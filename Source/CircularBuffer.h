@@ -31,7 +31,7 @@ private:
     
 // PRIVATE VARIABLES
     static constexpr int maxBufferSize = 80;
-    std::array<float, maxBufferSize> buffer;
+    std::array<float, maxBufferSize> buffer{};
     int sampleCount = 0;
 
 // PRIVATE FUNCTIONS

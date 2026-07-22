@@ -10,6 +10,9 @@
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="SdeT14" name="BitAllocation.cpp" compile="1" resource="0"
+            file="Source/BitAllocation.cpp"/>
+      <FILE id="evcNmv" name="BitAllocation.h" compile="0" resource="0" file="Source/BitAllocation.h"/>
       <FILE id="VqKX9C" name="ScaleFactoring.h" compile="0" resource="0"
             file="Source/ScaleFactoring.h"/>
       <FILE id="kUdGfa" name="FrameAssembly.cpp" compile="1" resource="0"

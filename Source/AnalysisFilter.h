@@ -2,7 +2,7 @@
 
 #include <JuceHeader.h>
 #include "Windowing.h"
-#include "ScaleFactoring.h"
+
 
 
 
@@ -20,18 +20,17 @@ class AnalysisFilter{
         partialCalculation(weighted);
         matrixing();
         
-        scaleFactors = scaleFactoring.process(subBands);
-        
         return subBands;
     }
     
+
     void reset();
     
     
     private:
     
-    std::array<float, 16> partials;
-    std::array<float, 8> subBands;
+    std::array<float, 16> partials{};
+    std::array<float, 8> subBands{};
     
     void partialCalculation(std::array<float, 80> weighted){
         
@@ -56,9 +55,9 @@ class AnalysisFilter{
     }
     
     Windower windower;
-    ScaleFactoring scaleFactoring;
+
     
-    std::array<float, 8> scaleFactors;
+    std::array<float, 8> scaleFactors{};
     
     
 };

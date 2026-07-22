@@ -125,19 +125,29 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
             auto bufferL = cBufferL.process(dryL);
             auto bufferR = cBufferR.process(dryR);
             
+            
+//            static int outerFireCount = 0;
+
             if (bufferL && bufferR){
+//                outerFireCount++;
+//                DBG ("outer fired, count = " << outerFireCount);
+
                 auto frameL = frameAssemblyL.process(*bufferL);
                 auto frameR = frameAssemblyR.process(*bufferR);
-                
-                if (frameL && frameR){
-                    
-                }
-            }
-        }
-    
 
-    
-    
+//                if (frameL.has_value()){
+//                    DBG ("got Frame");
+//                }
+//                else DBG ("BUG");
+            }
+            
+            float outL = 0.0f;
+            float outR = 0.0f;
+            
+            channelDataL[samp] = outL;
+            channelDataR[samp] = outR;
+            
+        }
 }
 
 //==============================================================================
