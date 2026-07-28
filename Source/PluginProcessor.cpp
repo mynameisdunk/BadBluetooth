@@ -89,6 +89,12 @@ void BadBluetoothProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
 {
     params.prepareToPlay(sampleRate);
     params.reset();
+    
+  
+// set sbcParameter values (duh)
+    
+//    frameAssemblyL.prepare(sbcParameters);
+//    frameAssemblyR.prepare(sbcParameters);
 }
 
 void BadBluetoothProcessor::releaseResources()
@@ -132,13 +138,18 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
 //                outerFireCount++;
 //                DBG ("outer fired, count = " << outerFireCount);
 
-                auto frameL = frameAssemblyL.process(*bufferL);
-                auto frameR = frameAssemblyR.process(*bufferR);
+                auto frameL = frameAssemblyL.process(*bufferL, sbcParameters);
+                auto frameR = frameAssemblyR.process(*bufferR, sbcParameters);
 
 //                if (frameL.has_value()){
 //                    DBG ("got Frame");
 //                }
 //                else DBG ("BUG");
+                
+                if(frameL && frameR){
+                    decoderL.process(*frameL);
+                    decoderR.process(*frameR);
+                }
             }
             
             float outL = 0.0f;

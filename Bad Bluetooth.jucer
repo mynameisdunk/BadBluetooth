@@ -10,6 +10,10 @@
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="pRCrTX" name="Reconstruction.h" compile="0" resource="0"
+            file="Source/Reconstruction.h"/>
+      <FILE id="Q7pKrf" name="Decoder.cpp" compile="1" resource="0" file="Source/Decoder.cpp"/>
+      <FILE id="Bl5fAI" name="Decoder.h" compile="0" resource="0" file="Source/Decoder.h"/>
       <FILE id="SdeT14" name="BitAllocation.cpp" compile="1" resource="0"
             file="Source/BitAllocation.cpp"/>
       <FILE id="evcNmv" name="BitAllocation.h" compile="0" resource="0" file="Source/BitAllocation.h"/>

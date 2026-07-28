@@ -14,6 +14,8 @@
 #include "CircularBuffer.h"
 #include "AnalysisFilter.h"
 #include "FrameAssembly.h"
+#include "SBCParameters.h"
+#include "Decoder.h"
 
 
 //==============================================================================
@@ -75,10 +77,16 @@ private:
     FrameAssembly frameAssemblyL;
     FrameAssembly frameAssemblyR;
     
+    SBCParameters sbcParameters;
+    
+    Decoder decoderL;
+    Decoder decoderR;
+    
 // PRIVATE VARIABLES
     
-    std::array<float, 80> weightedL;
-    std::array<float, 80> weightedR;
+    std::array<float, 80> weightedL{};
+    std::array<float, 80> weightedR{};
+    
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BadBluetoothProcessor)

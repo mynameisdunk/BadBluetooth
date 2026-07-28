@@ -2,6 +2,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "SBCParameters.h"
 
 
 class BitAllocation{
@@ -12,7 +13,7 @@ class BitAllocation{
         SNR = 1
     };
     
-    std::array<int, 8> process(std::array<float, 8> scaleFactor){
+    std::array<int, 8> process(std::array<int, 8> scaleFactorIndex, const SBCParameters& parameters){
         
 /*        juce::String s;
             for (auto v : scaleFactor) s << v << " ";
@@ -20,11 +21,15 @@ class BitAllocation{
         */
         
         allocationMethod = AllocationMethod::SNR;
-                                            //^^ MAKE PARAMETER
-        bitNeedCalculation(scaleFactor);
+//                                            //^^ MAKE PARAMETER (eventualy will respond to the kind of audio being passed. Currently limited by the separate L/R instances for processing audio. For nowj an acceptable limitation)
+        
+//        setBitPool(parameters.bitPool);
+        bitPool = parameters.bitPool;
+        bitNeedCalculation(scaleFactorIndex);
         setMaxBitneed(bitneed);
         calculateBitSlices();
         allocateBits();
+        // A lot of this stuff needs to be addressed in a prepare to play function/ update funtion. There's no point in updating these values every time the function is called - it's just causing unnecessary work to be done
 
         return bits;
     }
@@ -48,22 +53,23 @@ class BitAllocation{
     AllocationMethod allocationMethod;
     // Functions
     
-    std::array<float, 8> bitNeedCalculation(std::array<float, 8> scaleFactor){
+    
+    void bitNeedCalculation(std::array<int, 8> scaleFactorIndex){
         
         if (allocationMethod == AllocationMethod::SNR){
             for (int i = 0; i < 8; i++){
-                bitneed[i] = scaleFactor[i];
+                bitneed[i] = scaleFactorIndex[i];
             }
         }
         
         else {
             for (int i = 0; i < 8; i++){
-                if (scaleFactor[i] == 0){
+                if (scaleFactorIndex[i] == 0){
                     bitneed[i] = -5;
                 }
                 
                 else{
-                    loudness[i] = scaleFactor[i] - offset844k[i];
+                    loudness[i] = scaleFactorIndex[i] - offset844k[i];
                     
                     if (loudness[i] > 0){
                         bitneed[i] = loudness[i] / 2.0f;
@@ -73,7 +79,6 @@ class BitAllocation{
                 }
             }
         }
-        return bitneed;
     }
     
     void setMaxBitneed(std::array<float, 8> bitNeed){
@@ -126,16 +131,39 @@ class BitAllocation{
     }
         
     void allocateBits(){
-        for (int i = 0; i < 8; i++){
-            if (bitneed[i] < bitSlice + 2){
-                bits[i] = 0;
+        for (int sb = 0; sb < 8; sb++){
+            if (bitneed[sb] < bitSlice + 2){
+                bits[sb] = 0;
             }
             
             else {
-                bits[i] = fmin(bitneed[i] - bitSlice, 16);
+                bits[sb] = fmin(bitneed[sb] - bitSlice, 16);
             }
         }
-    }
+        
+        int sb = 0;
+            while (bitCount < bitPool && sb < 8){
+                if (bits[sb] >= 2 && bits[sb] < 16){
+                    bits[sb]++;
+                    bitCount++;
+                }
+                else if (bitneed[sb] == bitSlice + 1 && bitPool > bitCount + 1){
+                    bits[sb] = 2;
+                    bitCount += 2;
+                }
+                
+                sb++;
+            }
+        
+        sb = 0;
+            while (bitCount < bitPool && sb < 8){
+                if (bits[sb] < 16){
+                    bits[sb] ++;
+                    bitCount ++;
+                }
+                sb++;
+            }
+        }
         
         
         // Data
