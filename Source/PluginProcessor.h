@@ -11,7 +11,7 @@
 #include <JuceHeader.h>
 #include "Parameters.h"
 #include "SBCParameters.h"
-#include "CircularBuffer.h"
+#include "EncodeCircularBuffer.h"
 #include "AnalysisFilter.h"
 #include "FrameAssembly.h"
 #include "SBCParameters.h"
@@ -68,8 +68,8 @@ private:
     };
     
     Parameters params;
-    CircularBuffer cBufferL;
-    CircularBuffer cBufferR;
+    EncodeCircularBuffer cBufferL;
+    EncodeCircularBuffer cBufferR;
     
     AnalysisFilter anFilL;
     AnalysisFilter anFilR;

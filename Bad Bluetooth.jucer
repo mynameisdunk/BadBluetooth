@@ -10,27 +10,22 @@
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="yul10d" name="OutputQueue.h" compile="0" resource="0" file="Source/OutputQueue.h"/>
+      <FILE id="J2Znjw" name="DecodeCircularBuffer.h" compile="0" resource="0"
+            file="Source/DecodeCircularBuffer.h"/>
+      <FILE id="hrai5o" name="SynthesisFilter.h" compile="0" resource="0"
+            file="Source/SynthesisFilter.h"/>
       <FILE id="pRCrTX" name="Reconstruction.h" compile="0" resource="0"
             file="Source/Reconstruction.h"/>
-      <FILE id="Q7pKrf" name="Decoder.cpp" compile="1" resource="0" file="Source/Decoder.cpp"/>
       <FILE id="Bl5fAI" name="Decoder.h" compile="0" resource="0" file="Source/Decoder.h"/>
-      <FILE id="SdeT14" name="BitAllocation.cpp" compile="1" resource="0"
-            file="Source/BitAllocation.cpp"/>
       <FILE id="evcNmv" name="BitAllocation.h" compile="0" resource="0" file="Source/BitAllocation.h"/>
       <FILE id="VqKX9C" name="ScaleFactoring.h" compile="0" resource="0"
             file="Source/ScaleFactoring.h"/>
-      <FILE id="kUdGfa" name="FrameAssembly.cpp" compile="1" resource="0"
-            file="Source/FrameAssembly.cpp"/>
       <FILE id="gHjMkz" name="FrameAssembly.h" compile="0" resource="0" file="Source/FrameAssembly.h"/>
-      <FILE id="yus4LN" name="AnalysisFilter.cpp" compile="1" resource="0"
-            file="Source/AnalysisFilter.cpp"/>
       <FILE id="k66gXt" name="AnalysisFilter.h" compile="0" resource="0"
             file="Source/AnalysisFilter.h"/>
-      <FILE id="Adbl1W" name="CircularBuffer.cpp" compile="1" resource="0"
-            file="Source/CircularBuffer.cpp"/>
-      <FILE id="nEmLcM" name="CircularBuffer.h" compile="0" resource="0"
-            file="Source/CircularBuffer.h"/>
-      <FILE id="T8eVNT" name="Windowing.cpp" compile="1" resource="0" file="Source/Windowing.cpp"/>
+      <FILE id="nEmLcM" name="EncodeCircularBuffer.h" compile="0" resource="0"
+            file="Source/EncodeCircularBuffer.h"/>
       <FILE id="JIo1qW" name="Windowing.h" compile="0" resource="0" file="Source/Windowing.h"/>
       <FILE id="kjobWE" name="LookAndFeel.cpp" compile="1" resource="0" file="Source/LookAndFeel.cpp"/>
       <FILE id="sEILLY" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>

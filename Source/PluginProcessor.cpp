@@ -133,6 +133,9 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
             
             
 //            static int outerFireCount = 0;
+            
+            float outL = 0.0f;
+            float outR = 0.0f;
 
             if (bufferL && bufferR){
 //                outerFireCount++;
@@ -147,17 +150,17 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
 //                else DBG ("BUG");
                 
                 if(frameL && frameR){
+                    
                     decoderL.process(*frameL);
                     decoderR.process(*frameR);
+                    outL = decoderL.getNextSample();
+                    outR = decoderR.getNextSample();
+                    
+                    channelDataL[samp] = outL;
+                    channelDataR[samp] = outR;
+                    
                 }
             }
-            
-            float outL = 0.0f;
-            float outR = 0.0f;
-            
-            channelDataL[samp] = outL;
-            channelDataR[samp] = outR;
-            
         }
 }
 

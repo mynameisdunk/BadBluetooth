@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 #include <optional>
 
-class CircularBuffer{
+class EncodeCircularBuffer{
 public:
     
     void prepare();

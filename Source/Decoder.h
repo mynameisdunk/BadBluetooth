@@ -15,6 +15,10 @@
 #include "ScaleFactoring.h"
 #include "BitAllocation.h"
 #include "Reconstruction.h"
+#include "SynthesisFilter.h"
+#include "DecodeCircularBuffer.h"
+#include "OutputQueue.h"
+
 
 class Decoder{
     public:
@@ -27,14 +31,14 @@ class Decoder{
         /*
          PROCESS ORDER
          
-         Scale Factoring
+    DONE Scale Factoring
          - Calculate scale factor values from scaleFactorIndex
          - scalefactor[ch][sb] = pow(2.0,(scaleFactorIndex[ch][sb]+1)).
          
-         Bit Allocation
+    DONE Bit Allocation
          - This is the exact same as done by the encoding process
          
-         Reconstruction of Subband Samples
+    DONE Reconstruction of Subband Samples
          - outlined in the spec
          
          Synthesis Filter
@@ -48,9 +52,19 @@ class Decoder{
         
         processedFrame = reconstruction.process(reconstructionValues);
         
+        for(int blc = 0; blc < 16; blc++){
+            temporary = processedFrame[blc];
+            currentBlock = decodeBuffer.process(temporary);
+            outputQueue.push(currentBlock);
+        }
         
+        
+
     };
     
+    float getNextSample(){
+        return outputQueue.pop();
+    }
     
     
     private:
@@ -65,11 +79,25 @@ class Decoder{
         sbcParameters.bitPool = frame.bitPool;
     }
     
+    std::array<float, 8> popSamples(std::array<float, 8> output){
+        
+        for (int i = 0; i < 8; i++){
+            output[i]; 
+        }
+        
+        return output;
+    }
+    
     
     
     // PRIVATE VARIABLES
     std::array<int, 8> scaleFactorIndexes{};
-
+    std::array<float, 8> temporary{};
+    std::array<float, 8> currentBlock{};
+    
+    FrameAssembly::EncodedFrame rawFrame{};
+    FrameAssembly::Frame processedFrame{};
+    std::array<float, 8> output{};
     
     // INSTANCES
     
@@ -77,9 +105,13 @@ class Decoder{
     ScaleFactoring scaleFactoring;
     BitAllocation bitAllocation;
     Reconstruction reconstruction;
-    FrameAssembly::EncodedFrame rawFrame;
-    FrameAssembly::Frame processedFrame;
+    
+    DecodeCircularBuffer decodeBuffer;
     
     ReconstructionValues reconstructionValues;
+    
+    OutputQueue outputQueue;
+        
+    
     
 };
