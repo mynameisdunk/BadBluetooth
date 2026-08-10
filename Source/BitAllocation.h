@@ -32,7 +32,7 @@ class BitAllocation{
         // A lot of this stuff needs to be addressed in a prepare to play function/ update funtion. There's no point in updating these values every time the function is called - it's just causing unnecessary work to be done
         juce::String s;
         for (auto b : bits) s << b << " ";
-        DBG("bits allocated: " << s);
+//        DBG("bits allocated: " << s);
 
         return bits;
     }

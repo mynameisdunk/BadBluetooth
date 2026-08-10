@@ -18,9 +18,6 @@ class ScaleFactoring{
                 rawMax[i] = absVal;
             }
         }
-        
-        reset();
-
     }
     
     

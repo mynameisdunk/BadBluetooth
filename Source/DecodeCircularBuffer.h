@@ -14,52 +14,6 @@
 #include "Windowing.h"
 
 
-/*
- Step 1
- - Input 8 new subband samples (1 block)
- - for i = 0 to i = 7 do
-    S[i] = next subband sample
- 
- Step 2
- - Shifting
- - for i = 159 to i = 16 do
-    V[i] = V[i - 16]
- 
- Step 3
- - Matrixing
- - for k = 0 to k = 15 do
-    for i = 0 to i = 7 do
-        V[k] = sum(N[k][i] * S[i])
-    where N[k][i] = cos((i + 0.5) * (k + 4) * (pi / 8))
- 
- Step 4
- - Build an 80 values vector U
- - for i = 0 to i = 4 do
-    for j = 0 to j = 7 do
-        U[(i * 16) + j] = V[(i * 32) + j]
-        U[(i * 16) + 8 + j] = V[(i * 32) + 24 + j]
- 
- Step 5
- - Window by 80 coeeficients
- - Produce Vector W
- - for i = 0 to i = 79 do
-    W[i] = U[i] * D[i] (D[i] : filter coeffs table 12 - 24 multiplied by -8)
- 
- Step 6
- - Calculate 8 audio samples
- - for j = 0 to j = 7 do
-    for i = 0 to i = 9 do
-        X[j] = sum(W[j + (8 * i)])
- Step 7
- - Output 8 reconstructed Audio Samples
- - for i = 0 to i = 7 do
-    next outupt audio sample = X[i]
- 
- 
- 
- */
-
-
 class DecodeCircularBuffer {
     
     public:

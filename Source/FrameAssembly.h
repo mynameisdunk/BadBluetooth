@@ -98,6 +98,8 @@ class FrameAssembly{
             result.nrofSubbands = parameters.nrofSubbands;
             result.bitPool = parameters.bitPool;
             
+            scaleFactoring.reset();
+            
             return result;
         }
         

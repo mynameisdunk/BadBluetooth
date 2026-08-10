@@ -9,7 +9,7 @@ struct SBCParameters{
     int nrofChannels = 2;
     int channelMode;
     int allocationMethod = 0;
-    int bitPool = 1000;
+    int bitPool = 2;
 };
 
 struct ReconstructionValues{

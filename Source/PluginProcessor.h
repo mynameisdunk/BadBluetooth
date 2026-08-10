@@ -87,6 +87,9 @@ private:
     std::array<float, 80> weightedL{};
     std::array<float, 80> weightedR{};
     
+    std::optional<FrameAssembly::EncodedFrame> frameL;
+    std::optional<FrameAssembly::EncodedFrame> frameR;
+    
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BadBluetoothProcessor)

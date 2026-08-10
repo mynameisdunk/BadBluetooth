@@ -59,11 +59,21 @@ class Decoder{
         }
         
         
+//        DBG("PUSHED total so far: " << (pushedCounter += 128));
+//        DBG("POPPED total so far: " << (poppedCounter));
+        
+        
 
     };
     
     float getNextSample(){
+        
+
+      poppedCounter += 1;
+        
         return outputQueue.pop();
+        
+        
     }
     
     
@@ -111,7 +121,11 @@ class Decoder{
     ReconstructionValues reconstructionValues;
     
     OutputQueue outputQueue;
-        
+    
+    
+// DBG variables
+    int pushedCounter = 0;
+    int poppedCounter = 0;
     
     
 };
