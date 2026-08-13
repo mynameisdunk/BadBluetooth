@@ -17,7 +17,7 @@ public:
     void resized() override;
     
     juce::Slider slider;  //    -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -     // This is what it attaches to
-    juce::Label label;
+//    juce::Label label;
     
     juce::AudioProcessorValueTreeState::SliderAttachment attachment;            // This is an attachment (duh) but ^^
     

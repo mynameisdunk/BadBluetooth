@@ -15,10 +15,16 @@ class AnalysisFilter{
     
     std::array<float, 8> process(std::array<float, 80> samples){
         
+//        DBG(samples[50]);
+        
         auto weighted = windower.process(samples);
+        
+//        DBG(weighted[50]);
         
         partialCalculation(weighted);
         matrixing();
+        
+//        DBG(subBands[0]);
         
         return subBands;
     }
@@ -54,7 +60,7 @@ class AnalysisFilter{
         }
     }
     
-    Windower windower;
+    Windower windower{false};
 
     
     std::array<float, 8> scaleFactors{};

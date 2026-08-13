@@ -48,8 +48,6 @@ void RotaryKnobLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, in
     g.fillEllipse(knobRect);
     // ^^ this is the main circle knob seen
     
-    // TRYING TO ADD ANOTHER CIRCLE (I think I did it!!!!)
-    
     auto knobOutline = bounds.reduced(12.0f, 12.0f);
     auto pathOutline = juce::Path();
     path.addEllipse(knobOutline);

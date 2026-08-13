@@ -41,7 +41,7 @@ class FrameAssembly{
     void prepare(/*const SBCParameters& parameters*/){
         
     // This is where any fixed necessary variables are set. Typically sample rate but this plugin will get this information from the frame header so I don't think it needs to be put here??
-        
+    
         
     };
     

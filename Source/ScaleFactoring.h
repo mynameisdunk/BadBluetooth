@@ -43,6 +43,8 @@ class ScaleFactoring{
             scaleFactors[i] = std::pow (2.0f, static_cast<float> (index) + 1.0f);
         }
         
+//        DBG(scaleFactors[7]);
+        
         return scaleFactors;
     }
     

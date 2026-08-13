@@ -37,6 +37,8 @@ class DecodeCircularBuffer {
             }
         }
         
+//       d DBG (output[0]);
+        
         return output;
         
     }
@@ -58,5 +60,5 @@ class DecodeCircularBuffer {
     std::array<float, 8> output{};
     
     SynthesisFilter synthesisFilter;
-    Windower windower;
+    Windower windower{true};
 };

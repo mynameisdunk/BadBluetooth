@@ -8,12 +8,17 @@
 class Windower{
     public:
     
+    Windower(bool shouldApplyDecodeGain) : applyDecodeGain(shouldApplyDecodeGain)
+        {
+        }
+    
     void prepare();
     
     std::array<float, 80> process(std::array<float, 80> samples){
         
-        for (int i = 0; i <79; i++){
-            proto8Samples[i] = (samples[i] * proto8SampleCoeff[i]);
+        for (int i = 0; i <80; i++){
+            float gain = applyDecodeGain ? -8.0f : 1.0f;
+            proto8Samples[i] = (samples[i] * proto8SampleCoeff[i] * gain);
         }
         return proto8Samples;
     };
@@ -23,6 +28,8 @@ class Windower{
     
     
     private:
+    
+    bool applyDecodeGain;
     
     const std::array<float, 80> proto8SampleCoeff = {
         0.00000000E+00f,  1.56575398E-04f,  3.43256425E-04f,  5.54620202E-04f,

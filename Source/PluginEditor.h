@@ -10,6 +10,9 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "RotaryKnob.h"
+#include "Parameters.h"
+#include "LookAndFeel.h"
 
 //==============================================================================
 /**
@@ -28,6 +31,10 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     BadBluetoothProcessor& audioProcessor;
+    
+    RotaryKnob bitPoolKnob{"BitPool", audioProcessor.apvts, bitPoolParamID, false, false};
+    
+    juce::Label bitPoolLabel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BadBluetoothProcessorEditor)
 };
