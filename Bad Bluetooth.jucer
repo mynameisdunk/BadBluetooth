@@ -10,6 +10,7 @@
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="KcyN9P" name="Quantisation.h" compile="0" resource="0" file="Source/Quantisation.h"/>
       <FILE id="yul10d" name="OutputQueue.h" compile="0" resource="0" file="Source/OutputQueue.h"/>
       <FILE id="J2Znjw" name="DecodeCircularBuffer.h" compile="0" resource="0"
             file="Source/DecodeCircularBuffer.h"/>
@@ -40,7 +41,8 @@
             file="Source/PluginProcessor.h"/>
       <FILE id="BypFTI" name="RotaryKnob.cpp" compile="1" resource="0" file="Source/RotaryKnob.cpp"/>
       <FILE id="etU3pJ" name="RotaryKnob.h" compile="0" resource="0" file="Source/RotaryKnob.h"/>
-      <FILE id="bFpVe0" name="SBCParameters.h" compile="0" resource="0" file="Source/SBCParameters.h"/>
+      <FILE id="bFpVe0" name="DataStructures.h" compile="0" resource="0"
+            file="Source/DataStructures.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
