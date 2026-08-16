@@ -11,7 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "FrameAssembly.h"
-#include "SBCParameters.h"
+#include "DataStructures.h"
 #include "ScaleFactoring.h"
 #include "BitAllocation.h"
 #include "Reconstruction.h"
@@ -23,11 +23,11 @@
 class Decoder{
     public:
     
-    void process(const FrameAssembly::EncodedFrame& frame){
+    void process(const EncodedFrame& frame){
         
         rawFrame = frame;
         setParameters(frame);
-        scaleFactorIndexes = frame.scaleFactorIndex;
+        scaleFactorIndexes = frame.encodedAudioValues.scaleFactorIndex;
         /*
          PROCESS ORDER
          
@@ -48,7 +48,7 @@ class Decoder{
         
         reconstructionValues.scaleFactors = scaleFactoring.calculateScaleFactors(scaleFactorIndexes);
         reconstructionValues.bitLevel = bitAllocation.process(scaleFactorIndexes, sbcParameters);
-        reconstructionValues.quantisedSamples = rawFrame.quantisedSamples;
+        reconstructionValues.quantisedSamples = rawFrame.encodedAudioValues.quantisedSamples;
         
         processedFrame = reconstruction.process(reconstructionValues);
         
@@ -79,14 +79,14 @@ class Decoder{
     
     private:
     
-    void setParameters(const FrameAssembly::EncodedFrame frame){
-        sbcParameters.sampleRate = frame.sampleRate;
-        sbcParameters.nrofSubbands = frame.nrofSubbands;
-        sbcParameters.nrofBlocks = frame.nrofBlocks;
-        sbcParameters.nrofChannels = frame.nrofChannels;
-        sbcParameters.channelMode = frame.channelMode;
-        sbcParameters.allocationMethod = frame.allocationMethod;
-        sbcParameters.bitPool = frame.bitPool;
+    void setParameters(const EncodedFrame& frame){
+        sbcParameters.sampleRate = frame.sbcParameters.sampleRate;
+        sbcParameters.nrofSubbands = frame.sbcParameters.nrofSubbands;
+        sbcParameters.nrofBlocks = frame.sbcParameters.nrofBlocks;
+        sbcParameters.nrofChannels = frame.sbcParameters.nrofChannels;
+        sbcParameters.channelMode = frame.sbcParameters.channelMode;
+        sbcParameters.allocationMethod = frame.sbcParameters.allocationMethod;
+        sbcParameters.bitPool = frame.sbcParameters.bitPool;
     }
     
     std::array<float, 8> popSamples(std::array<float, 8> output){
@@ -105,8 +105,8 @@ class Decoder{
     std::array<float, 8> temporary{};
     std::array<float, 8> currentBlock{};
     
-    FrameAssembly::EncodedFrame rawFrame{};
-    FrameAssembly::Frame processedFrame{};
+    EncodedFrame rawFrame{};
+    Frame processedFrame{};
     std::array<float, 8> output{};
     
     // INSTANCES

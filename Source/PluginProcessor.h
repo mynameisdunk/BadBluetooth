@@ -10,11 +10,9 @@
 
 #include <JuceHeader.h>
 #include "Parameters.h"
-#include "SBCParameters.h"
 #include "EncodeCircularBuffer.h"
-#include "AnalysisFilter.h"
 #include "FrameAssembly.h"
-#include "SBCParameters.h"
+#include "DataStructures.h"
 #include "Decoder.h"
 
 
@@ -72,9 +70,6 @@ private:
     EncodeCircularBuffer cBufferL;
     EncodeCircularBuffer cBufferR;
     
-    AnalysisFilter anFilL;
-    AnalysisFilter anFilR;
-    
     FrameAssembly frameAssemblyL;
     FrameAssembly frameAssemblyR;
     
@@ -88,8 +83,8 @@ private:
     std::array<float, 80> weightedL{};
     std::array<float, 80> weightedR{};
     
-    std::optional<FrameAssembly::EncodedFrame> frameL;
-    std::optional<FrameAssembly::EncodedFrame> frameR;
+    std::optional<EncodedFrame> frameL;
+    std::optional<EncodedFrame> frameR;
     
     
     //==============================================================================

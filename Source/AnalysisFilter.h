@@ -13,18 +13,13 @@ class AnalysisFilter{
     
     void udpate();
     
-    std::array<float, 8> process(std::array<float, 80> samples){
-        
-//        DBG(samples[50]);
+    std::array<float, 8> process(std::array<float, 80> samples)
+    {
         
         auto weighted = windower.process(samples);
         
-//        DBG(weighted[50]);
-        
         partialCalculation(weighted);
         matrixing();
-        
-//        DBG(subBands[0]);
         
         return subBands;
     }
@@ -38,23 +33,27 @@ class AnalysisFilter{
     std::array<float, 16> partials{};
     std::array<float, 8> subBands{};
     
-    void partialCalculation(std::array<float, 80> weighted){
-        
-        for (int i = 0; i < 16; i++){
+    void partialCalculation(std::array<float, 80> weighted)
+    {
+        for (int i = 0; i < 16; i++)
+        {
             partials[i] = 0.0f;
             
-            for (int k = 0; k < 5; k++){
+            for (int k = 0; k < 5; k++)
+            {
                 partials[i] += weighted[i + k * 16];
             }
         }
     }
     
-    void matrixing(){
-        for (int i = 0; i < 8; i++){
+    void matrixing()
+    {
+        for (int i = 0; i < 8; i++)
+        {
             subBands[i] = 0.0f;
             
-            for (int k = 0; k < 16; k++){
-            
+            for (int k = 0; k < 16; k++)
+            {
                 subBands[i] += cos((i + 0.5f) * (k - 4.0f) * M_PI / 8.0f) * partials[k];
             }
         }

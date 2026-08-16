@@ -2,7 +2,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "FrameAssembly.h"
-#include "SBCParameters.h"
+#include "DataStructures.h"
 
 
 class Reconstruction {
@@ -10,9 +10,11 @@ class Reconstruction {
     
     
 
-    FrameAssembly::Frame process(const ReconstructionValues& values){
+    Frame process(const ReconstructionValues& values)
+    {
         
-        for (int sb = 0; sb < 8; sb++){
+        for (int sb = 0; sb < 8; sb++)
+        {
             levels[sb] = std::pow(2.0f, static_cast<float>(values.bitLevel[sb])) - 1.0f;
         }
         
@@ -38,7 +40,7 @@ class Reconstruction {
     std::array<float, 8> levels;
     
     
-    FrameAssembly::Frame sbSample;
+    Frame sbSample;
     
     
 };

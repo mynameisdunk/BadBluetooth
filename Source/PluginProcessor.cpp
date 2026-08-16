@@ -121,13 +121,20 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
         buffer.clear(i, 0, buffer.getNumSamples());
     
     params.update();
+    
     sbcParameters.bitPool = params.bitPool;
+    sbcParameters.bitPoolResolutionScaling = params.bitPoolResolution;
+    
+    frameAssemblyL.update(sbcParameters);
+    frameAssemblyR.update(sbcParameters);
     
     float* channelDataL = buffer.getWritePointer(0);
     float* channelDataR = buffer.getWritePointer(1);
     
     for (int samp = 0; samp < buffer.getNumSamples(); ++samp )
         {
+            params.smoothen();
+            
             float dryL = channelDataL[samp];
             float dryR = channelDataR[samp];
             

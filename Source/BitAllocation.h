@@ -2,7 +2,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "SBCParameters.h"
+#include "DataStructures.h"
 
 
 class BitAllocation{
@@ -13,15 +13,11 @@ class BitAllocation{
         SNR = 1
     };
     
-    std::array<int, 8> process(std::array<int, 8> scaleFactorIndex, const SBCParameters& parameters){
-        
-/*        juce::String s;
-            for (auto v : scaleFactor) s << v << " ";
-            DBG ("scaleFactor going into BitAllocation: " << s);
-        */
+    std::array<int, 8> process(std::array<int, 8> scaleFactorIndex, const SBCParameters& parameters)
+    {
         
         allocationMethod = AllocationMethod::SNR;
-//                                            //^^ MAKE PARAMETER (eventualy will respond to the kind of audio being passed. Currently limited by the separate L/R instances for processing audio. For nowj an acceptable limitation)
+//                                            //^^ MAKE PARAMETER (eventualy will respond to the kind of audio being passed. Currently limited by the separate L/R instances for processing audio. For now an acceptable limitation)
         
 //        setBitPool(parameters.bitPool);
         bitPool = parameters.bitPool;
@@ -30,9 +26,6 @@ class BitAllocation{
         calculateBitSlices();
         allocateBits();
         // A lot of this stuff needs to be addressed in a prepare to play function/ update funtion. There's no point in updating these values every time the function is called - it's just causing unnecessary work to be done
-        juce::String s;
-        for (auto b : bits) s << b << " ";
-//        DBG("bits allocated: " << s);
 
         return bits;
     }
@@ -48,8 +41,7 @@ class BitAllocation{
     int bitCount = 0;
     int sliceCount = 0;
     int bitSlice = 0;
-    int bitPool = 52;
-               // ^^ MAKE PARAMETER
+    int bitPool = 0;
     
     // Instances
     
@@ -57,17 +49,22 @@ class BitAllocation{
     // Functions
     
     
-    void bitNeedCalculation(std::array<int, 8> scaleFactorIndex){
+    void bitNeedCalculation(std::array<int, 8> scaleFactorIndex)
+    {
         
-        if (allocationMethod == AllocationMethod::SNR){
-            for (int i = 0; i < 8; i++){
+        if (allocationMethod == AllocationMethod::SNR)
+        {
+            for (int i = 0; i < 8; i++)
+            {
                 bitneed[i] = scaleFactorIndex[i];
             }
         }
         
         else {
-            for (int i = 0; i < 8; i++){
-                if (scaleFactorIndex[i] == 0){
+            for (int i = 0; i < 8; i++)
+            {
+                if (scaleFactorIndex[i] == 0)
+                {
                     bitneed[i] = -5;
                 }
                 
@@ -84,18 +81,21 @@ class BitAllocation{
         }
     }
     
-    void setMaxBitneed(std::array<float, 8> bitNeed){
+    void setMaxBitneed(std::array<float, 8> bitNeed)
+    {
         
         maxBitneed = 0;
         
         for (int i = 0; i < 8; i++){
-            if (bitNeed[i] > maxBitneed){
+            if (bitNeed[i] > maxBitneed)
+            {
                 maxBitneed = bitNeed[i];
             }
         }
     }
     
-    void calculateBitSlices(){
+    void calculateBitSlices()
+    {
         bitCount = 0;
         sliceCount = 0;
         
@@ -103,54 +103,66 @@ class BitAllocation{
         
         int safetyCounter = 0;
         
-        do {
+        do
+        {
             bitSlice --;
             bitCount += sliceCount;
             sliceCount = 0;
-            for (int i = 0; i < 8; i++){
-                if((bitneed[i]>bitSlice+1)&&(bitneed[i]<bitSlice+16)){
+            for (int i = 0; i < 8; i++)
+            {
+                if((bitneed[i]>bitSlice+1)&&(bitneed[i]<bitSlice+16))
+                {
                     sliceCount ++;
                 }
-                else if (bitneed[i] == bitSlice + 1){
+                else if (bitneed[i] == bitSlice + 1)
+                {
                     sliceCount += 2;
                 }
             }
             
             
             safetyCounter++;
-                    if (safetyCounter > 1000)
-                    {
-                        DBG ("calculateBitSlices STUCK - bitSlice= " << bitSlice << " bitCount= " << bitCount << " sliceCount= " << sliceCount);
-                        break; // force exit no matter what, so we can at least see the DBG output
-                    }
+                if (safetyCounter > 1000)
+                {
+//                        DBG ("calculateBitSlices STUCK - bitSlice= " << bitSlice << " bitCount= " << bitCount << " sliceCount= " << sliceCount);
+                break; // force exit no matter what, so we can at least see the DBG output
+                }
             
         }
         while (bitCount + sliceCount < bitPool && (bitSlice > -16));
         
-        if (bitCount + sliceCount == bitPool){
+        if (bitCount + sliceCount == bitPool)
+        {
             bitCount += sliceCount;
             bitSlice --;
         }
     }
         
-    void allocateBits(){
-        for (int sb = 0; sb < 8; sb++){
-            if (bitneed[sb] < bitSlice + 2){
+    void allocateBits()
+    {
+        for (int sb = 0; sb < 8; sb++)
+        {
+            if (bitneed[sb] < bitSlice + 2)
+            {
                 bits[sb] = 0;
             }
             
-            else {
+            else
+            {
                 bits[sb] = fmin(bitneed[sb] - bitSlice, 16);
             }
         }
         
         int sb = 0;
-            while (bitCount < bitPool && sb < 8){
-                if (bits[sb] >= 2 && bits[sb] < 16){
+            while (bitCount < bitPool && sb < 8)
+            {
+                if (bits[sb] >= 2 && bits[sb] < 16)
+                {
                     bits[sb]++;
                     bitCount++;
                 }
-                else if (bitneed[sb] == bitSlice + 1 && bitPool > bitCount + 1){
+                else if (bitneed[sb] == bitSlice + 1 && bitPool > bitCount + 1)
+                {
                     bits[sb] = 2;
                     bitCount += 2;
                 }
@@ -159,8 +171,10 @@ class BitAllocation{
             }
         
         sb = 0;
-            while (bitCount < bitPool && sb < 8){
-                if (bits[sb] < 16){
+            while (bitCount < bitPool && sb < 8)
+            {
+                if (bits[sb] < 16)
+                {
                     bits[sb] ++;
                     bitCount ++;
                 }

@@ -1,6 +1,8 @@
 
 #pragma once
 
+using Frame = std::array<std::array<float, 8>, 16>;
+
 struct SBCParameters{
     
     int sampleRate;
@@ -10,15 +12,28 @@ struct SBCParameters{
     int channelMode = 0;
     int allocationMethod = 0;
     int bitPool = 0;
+    float bitPoolResolutionScaling = 1.0f;
 };
 
 struct ReconstructionValues{
     
-    std::array<std::array<float, 8>, 16> quantisedSamples{};
+    Frame quantisedSamples{};
     std::array<float, 8> scaleFactors{};
+    std::array<int, 8> scaleFactorIndex{};
     std::array<int, 8> bitLevel{};
     
+    // This can be more appropriately named HEADER INFORMATION
+    
 };
+
+struct EncodedFrame{
+    
+    SBCParameters sbcParameters;
+    ReconstructionValues encodedAudioValues;
+    
+};
+
+
 
 
 /*

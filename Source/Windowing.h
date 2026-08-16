@@ -3,7 +3,7 @@
 
 #include <JuceHeader.h>
 
-#include "SBCParameters.h"
+#include "DataStructures.h"
 
 class Windower{
     public:

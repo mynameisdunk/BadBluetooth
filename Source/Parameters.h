@@ -3,6 +3,7 @@
 
 const juce::ParameterID gainParamID {"gain", 1};
 const juce::ParameterID bitPoolParamID {"bitPool", 1};
+const juce::ParameterID bitPoolResolutionParamID {"bitPoolResolution", 1};
 
 class Parameters
 {
@@ -19,7 +20,10 @@ public:
     
     
     float gain = 0.0f;
+    float bitPoolResolution = 0.0f;
+    
     int bitPool = 16;
+    
     
 private:
     
@@ -27,5 +31,8 @@ private:
     juce::LinearSmoothedValue<float> gainSmoother;
     
     juce::AudioParameterInt* bitPoolParam;
+    
+    juce::AudioParameterFloat* bitPoolResolutionParam;
+    juce::LinearSmoothedValue<float> bitPoolResolutionSmoother;
     
 };
