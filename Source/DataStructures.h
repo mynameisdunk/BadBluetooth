@@ -11,7 +11,7 @@ struct SBCParameters{
     int nrofChannels = 2;
     int channelMode = 0;
     int allocationMethod = 0;
-    int bitPool = 0;
+    int bitPool = 2;
     float bitPoolResolutionScaling = 1.0f;
 };
 
@@ -30,7 +30,7 @@ struct EncodedFrame{
     
     SBCParameters sbcParameters;
     ReconstructionValues encodedAudioValues;
-    
+    float concealmentGain = 1.0f;
 };
 
 

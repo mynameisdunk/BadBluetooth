@@ -19,16 +19,25 @@ BadBluetoothProcessorEditor::BadBluetoothProcessorEditor (BadBluetoothProcessor&
     // editor's size to whatever you need it to be.
     
 // PARAMETERS
+    
+    bypassedImage = juce::ImageCache::getFromMemory (BinaryData::PEDAL_BODY_BYPASSED_png, BinaryData::PEDAL_BODY_BYPASSED_pngSize);
+    
+    pressedImage  = juce::ImageCache::getFromMemory (BinaryData::PEDAL_BODY_DOWN_png, BinaryData::PEDAL_BODY_DOWN_pngSize);
+    
+    activeImage   = juce::ImageCache::getFromMemory (BinaryData::PEDAL_BODY_ACTIVE_png,  BinaryData::PEDAL_BODY_ACTIVE_pngSize);
+    
+    auto knob1Strip = juce::ImageCache::getFromMemory (BinaryData::KNOB_LEFT_STRIP_png,BinaryData::KNOB_LEFT_STRIP_pngSize);
+    
+    auto knob2Strip = juce::ImageCache::getFromMemory (BinaryData::KNOB_RIGHT_STRIP_png,BinaryData::KNOB_RIGHT_STRIP_pngSize);
+    
+    
+    bitPoolKnob.setFilmStrip (knob1Strip, 128);
+    bitPoolResolutionKnob.setFilmStrip (knob2Strip, 128);
     addAndMakeVisible(bitPoolKnob);
+    addAndMakeVisible(bitPoolResolutionKnob);
+
     
-// LABELS
-    bitPoolLabel.setColour(juce::Label::textColourId, juce::Colours::black);
-    bitPoolLabel.setFont(Fonts::getFont(18));
-    bitPoolLabel.setText("BITPOOL", juce::dontSendNotification);
-    bitPoolLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(bitPoolLabel);
-    
-    setSize (300, 300);
+    setSize (480, 480);
 }
 
 BadBluetoothProcessorEditor::~BadBluetoothProcessorEditor()
@@ -38,7 +47,7 @@ BadBluetoothProcessorEditor::~BadBluetoothProcessorEditor()
 //==============================================================================
 void BadBluetoothProcessorEditor::paint (juce::Graphics& g)
 {
-    
+    /*
 
 // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll(juce::Colours::black);
@@ -55,11 +64,17 @@ void BadBluetoothProcessorEditor::paint (juce::Graphics& g)
     g.setColour(juce::Colours::black);
     g.drawText("BAD BLUETOOTH", 4, 4, 296, 40, juce::Justification::centred);
     
-
+*/
     
 // DBG BOUNDS
 //    g.setColour(juce::Colours::red);
 //    g.drawRect(bitPoolKnob.getBounds(), 2);
+    
+    juce::Image* current = &bypassedImage;
+    if (currentState == PedalState::Pressed) current = &pressedImage;
+    else if (currentState == PedalState::Active) current = &activeImage;
+
+    g.drawImage (*current, getLocalBounds().toFloat());
     
 }
 
@@ -68,7 +83,15 @@ void BadBluetoothProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     
-    bitPoolKnob.setBounds(10, 55, 92, 92);
-    bitPoolLabel.setBounds(bitPoolKnob.getX(), bitPoolKnob.getBottom() + 4, 92, 16);
+//    bitPoolKnob.setBounds(38, 55, 92, 92);
+//    bitPoolLabel.setBounds(bitPoolKnob.getX(), bitPoolKnob.getBottom() + 4, 92, 16);
+//    
+//    bitPoolResolutionKnob.setBounds(166, 55, 92, 92);
+//    bitPoolResolutionLabel.setBounds(bitPoolResolutionKnob.getX(), bitPoolResolutionKnob.getBottom() + 4, 92, 16);
+    
+    bitPoolResolutionKnob.setBounds(0, 0, 480, 480);
+    bitPoolKnob.setBounds(0, 0, 480, 480);
+    
+    
     
 }

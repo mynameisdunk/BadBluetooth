@@ -5,11 +5,31 @@
               pluginManufacturerCode="DUNK" pluginCode="BBTH" cppLanguageStandard="latest">
   <MAINGROUP id="lSuyV6" name="Bad Bluetooth">
     <GROUP id="{B4BCED7C-3B6E-5F0D-5321-F6DAD703F016}" name="Assets">
+      <FILE id="TxNYmg" name="PEDAL BODY ACTIVE.png" compile="0" resource="1"
+            file="../../../Documents/BLENDING/IMAGE RENDERS/CHORUS PEDAL TEST/PEDAL BODY/480/PEDAL BODY ACTIVE.png"/>
+      <FILE id="EdQ1Bt" name="PEDAL BODY BYPASSED.png" compile="0" resource="1"
+            file="../../../Documents/BLENDING/IMAGE RENDERS/CHORUS PEDAL TEST/PEDAL BODY/480/PEDAL BODY BYPASSED.png"/>
+      <FILE id="HfFMfZ" name="PEDAL BODY DOWN.png" compile="0" resource="1"
+            file="../../../Documents/BLENDING/IMAGE RENDERS/CHORUS PEDAL TEST/PEDAL BODY/480/PEDAL BODY DOWN.png"/>
       <FILE id="MPnHPI" name="GoogleSansCode-Bold.ttf" compile="0" resource="1"
             file="../../../Documents/FONTS/Google_Sans_Code/static/GoogleSansCode-Bold.ttf"/>
+      <FILE id="LTkGLn" name="KNOB LEFT STRIP.png" compile="0" resource="1"
+            file="../../../Documents/BLENDING/IMAGE RENDERS/CHORUS PEDAL TEST/KNOB LEFT FINAL/KNOB LEFT STRIP.png"/>
+      <FILE id="wclEA5" name="KNOB RIGHT STRIP.png" compile="0" resource="1"
+            file="../../../Documents/BLENDING/IMAGE RENDERS/CHORUS PEDAL TEST/KNOB RIGHT FINAL/KNOB RIGHT STRIP.png"/>
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="PyDwKH" name="SimplePLC.h" compile="0" resource="0" file="Source/SimplePLC.h"/>
+      <FILE id="QYDhFS" name="ioFiltering.h" compile="0" resource="0" file="Source/ioFiltering.h"/>
+      <FILE id="ZqTOgc" name="LossCircularBuffer.h" compile="0" resource="0"
+            file="Source/LossCircularBuffer.h"/>
+      <FILE id="Bg5mpk" name="LossConcealment.h" compile="0" resource="0"
+            file="Source/LossConcealment.h"/>
+      <FILE id="MEBCrb" name="PacketLoss.h" compile="0" resource="0" file="Source/PacketLoss.h"/>
+      <FILE id="mR78YZ" name="PathLoss.h" compile="0" resource="0" file="Source/PathLoss.h"/>
+      <FILE id="s2nvF4" name="FilmStripLookAndFeel.h" compile="0" resource="0"
+            file="Source/FilmStripLookAndFeel.h"/>
       <FILE id="KcyN9P" name="Quantisation.h" compile="0" resource="0" file="Source/Quantisation.h"/>
       <FILE id="yul10d" name="OutputQueue.h" compile="0" resource="0" file="Source/OutputQueue.h"/>
       <FILE id="J2Znjw" name="DecodeCircularBuffer.h" compile="0" resource="0"

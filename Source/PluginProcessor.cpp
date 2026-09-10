@@ -97,6 +97,11 @@ void BadBluetoothProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     
 //    frameAssemblyL.prepare(sbcParameters);
 //    frameAssemblyR.prepare(sbcParameters);
+    
+    pathLoss.prepare(params.distance, params.material);
+    
+    decoderL.reset();
+    decoderR.reset();
 }
 
 void BadBluetoothProcessor::releaseResources()
@@ -128,6 +133,10 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
     frameAssemblyL.update(sbcParameters);
     frameAssemblyR.update(sbcParameters);
     
+    pathLoss.update(params.distance, params.material);
+    float L = pathLoss.calculatePathLoss();
+//    DBG(L);
+    
     float* channelDataL = buffer.getWritePointer(0);
     float* channelDataR = buffer.getWritePointer(1);
     
@@ -135,11 +144,13 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
         {
             params.smoothen();
             
-            float dryL = channelDataL[samp];
-            float dryR = channelDataR[samp];
+            float dryL = basicFiltersL.inputProcess(0, channelDataL[samp]);
+            float dryR = basicFiltersR.inputProcess(0, channelDataR[samp]);
             
-            auto bufferL = cBufferL.process(dryL);
-            auto bufferR = cBufferR.process(dryR);
+//            auto bufferL = cBufferL.process(dryL);
+//            auto bufferR = cBufferR.process(dryR);
+            
+            auto stereoBlock = encodeBuffer.process({dryL, dryR});
             
             
 //            static int outerFireCount = 0;
@@ -155,8 +166,15 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
 
                 if(frameL && frameR){
                                 
-                    decoderL.process(*frameL);
-                    decoderR.process(*frameR);
+                    // INSERT FRAME BUFFER HERE
+                    // INSERT GILBERT ELLIOT CLASS HERE
+                    
+                    auto frameLeft = packetLossLeft.process(*frameL, L);
+                    auto frameRight = packetLossRight.process(*frameR, L);
+//                    DBG("x = " << packetLoss.x << "    " << "L = " << packetLoss.L);
+                    
+                    decoderL.process(frameLeft);
+                    decoderR.process(frameRight);
                     
                     frameL.reset();
                     frameR.reset();
@@ -165,8 +183,11 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
             outL = decoderL.getNextSample();
             outR = decoderR.getNextSample();
             
-            channelDataL[samp] = outL;
-            channelDataR[samp] = outR;
+            channelDataL[samp] = basicFiltersL.outputProcess(0, outL);
+            channelDataR[samp] = basicFiltersR.outputProcess(0, outR);
+            // Can I include a state machine here which, depending on the value of the concealment mode parameters switches to one method which conceals audio at the frame scale and another which works at the sample scale?
+            
+            //  I also want to add in a scrambling feature as part of one of the concealment methods which means I need to think about how that will work in both frame and sample scale.
         }
 }
 

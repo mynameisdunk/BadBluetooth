@@ -17,6 +17,9 @@
 //==============================================================================
 /**
 */
+
+enum class PedalState { Bypassed, Pressed, Active };
+
 class BadBluetoothProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
@@ -33,8 +36,13 @@ private:
     BadBluetoothProcessor& audioProcessor;
     
     RotaryKnob bitPoolKnob{"BitPool", audioProcessor.apvts, bitPoolParamID, false, false};
+    RotaryKnob bitPoolResolutionKnob{"BitPoolResolution", audioProcessor.apvts, bitPoolResolutionParamID, false, false};
     
     juce::Label bitPoolLabel;
+    juce::Label bitPoolResolutionLabel;
+    
+    juce::Image bypassedImage, pressedImage, activeImage;
+    PedalState currentState = PedalState::Bypassed;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BadBluetoothProcessorEditor)
 };

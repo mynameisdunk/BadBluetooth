@@ -85,13 +85,20 @@ class ScaleFactoring{
     
     void update(SBCParameters& parameters){
        
-        sensitivity = parameters.bitPoolResolutionScaling;
+        float normalised = juce::jlimit(0.0f, 1.0f, parameters.bitPoolResolutionScaling);
+        
+        sensitivity = expandExponential(normalised, sensitivityMin, sensitivityMax);
 
     }
     
 // ------------------------------------------------------------------------------------
     
     private:
+    
+    static float expandExponential(float normalized, float min, float max)
+        {
+            return min * std::pow(max / min, normalized);
+        }
     
     std::array<float, 8> rawMax{};
     std::array<float, 8> scaleFactors{};
@@ -102,6 +109,9 @@ class ScaleFactoring{
 //    float indexScale = 1.0f;
     float reconScale = 1.0f;
     float sensitivity = 1.0f;
+    
+    static constexpr float sensitivityMin = 1.0f;
+    static constexpr float sensitivityMax = 8.0f;
     
 };
 

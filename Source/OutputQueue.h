@@ -31,6 +31,10 @@ public:
         return sample;
     }
     
+    void reset(){
+        queue.clear();
+    }
+    
 private:
     std::deque<float> queue;
 };

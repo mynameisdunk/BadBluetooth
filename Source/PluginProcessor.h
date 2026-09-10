@@ -9,11 +9,15 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "ioFiltering.h"
 #include "Parameters.h"
 #include "EncodeCircularBuffer.h"
 #include "FrameAssembly.h"
 #include "DataStructures.h"
 #include "Decoder.h"
+#include "PathLoss.h"
+#include "PacketLoss.h"
+
 
 
 //==============================================================================
@@ -65,10 +69,17 @@ public:
 private:
     
     
+// INSTANCES
+
+    ioFiltering basicFiltersL;
+    ioFiltering basicFiltersR;
     
     Parameters params;
+    
     EncodeCircularBuffer cBufferL;
     EncodeCircularBuffer cBufferR;
+    
+    EncodeCircularBuffer encodeBuffer;
     
     FrameAssembly frameAssemblyL;
     FrameAssembly frameAssemblyR;
@@ -77,6 +88,13 @@ private:
     
     Decoder decoderL;
     Decoder decoderR;
+    
+    PathLoss pathLoss;
+    
+    PacketLoss packetLossLeft;
+    PacketLoss packetLossRight;
+    
+    
     
 // PRIVATE VARIABLES
     

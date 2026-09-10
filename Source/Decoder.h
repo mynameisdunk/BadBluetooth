@@ -18,6 +18,8 @@
 #include "SynthesisFilter.h"
 #include "DecodeCircularBuffer.h"
 #include "OutputQueue.h"
+#include "LossConcealment.h"
+
 
 
 class Decoder{
@@ -28,23 +30,8 @@ class Decoder{
         rawFrame = frame;
         setParameters(frame);
         scaleFactorIndexes = frame.encodedAudioValues.scaleFactorIndex;
-        /*
-         PROCESS ORDER
-         
-    DONE Scale Factoring
-         - Calculate scale factor values from scaleFactorIndex
-         - scalefactor[ch][sb] = pow(2.0,(scaleFactorIndex[ch][sb]+1)).
-         
-    DONE Bit Allocation
-         - This is the exact same as done by the encoding process
-         
-    DONE Reconstruction of Subband Samples
-         - outlined in the spec
-         
-         Synthesis Filter
-         
-         
-         */
+        outputGain = frame.concealmentGain;
+
         
         reconstructionValues.scaleFactors = scaleFactoring.calculateScaleFactors(scaleFactorIndexes);
         reconstructionValues.bitLevel = bitAllocation.process(scaleFactorIndexes, sbcParameters);
@@ -57,22 +44,21 @@ class Decoder{
             currentBlock = decodeBuffer.process(temporary);
             outputQueue.push(currentBlock);
         }
-        
-        
-//        DBG("PUSHED total so far: " << (pushedCounter += 128));
-//        DBG("POPPED total so far: " << (poppedCounter));
-        
-        
 
     };
     
     float getNextSample(){
         
-
-      poppedCounter += 1;
+        float output = outputQueue.pop() * outputGain;
+        // pass output to loss concealment buffer
+        lossConcealment.process(output);
+        return output;
         
-        return outputQueue.pop();
-        
+    }
+    
+    void reset(){
+        outputQueue.reset();
+        lossConcealment.reset();
         
     }
     
@@ -109,6 +95,8 @@ class Decoder{
     Frame processedFrame{};
     std::array<float, 8> output{};
     
+    float outputGain = 1.0f;
+    
     // INSTANCES
     
     SBCParameters sbcParameters;
@@ -121,11 +109,12 @@ class Decoder{
     ReconstructionValues reconstructionValues;
     
     OutputQueue outputQueue;
+    LossConcealment lossConcealment;
     
     
 // DBG variables
-    int pushedCounter = 0;
-    int poppedCounter = 0;
+//    int pushedCounter = 0;
+//    int poppedCounter = 0;
     
     
 };

@@ -39,8 +39,16 @@ RotaryKnob::RotaryKnob(const juce::String& text,
     setSize( 128,128);
 }
 
+void RotaryKnob::setFilmStrip(const juce::Image& stripImage, int numFrames, bool isHorizontal)
+{
+    filmStripLookAndFeel = std::make_unique<FilmStripLookAndFeel>();
+    filmStripLookAndFeel->setStripImage(stripImage, numFrames, isHorizontal);
+    slider.setLookAndFeel(filmStripLookAndFeel.get());
+}
+
 RotaryKnob::~RotaryKnob()
 {
+    slider.setLookAndFeel(nullptr);
     
 }
 
@@ -67,4 +75,15 @@ void RotaryKnob::resized()
 
        // If you're using your own label (not attachToComponent), place it here
 //       label.setBounds(0, slider.getBottom(), getWidth(), labelHeight);
+}
+
+
+bool RotaryKnob::hitTest (int x, int y)
+{
+    // If no film strip is active, fall back to the default rectangular hit-test
+    if (filmStripLookAndFeel == nullptr)
+        return juce::Component::hitTest(x, y);
+
+    double normalisedPos = slider.valueToProportionOfLength(slider.getValue());
+    return filmStripLookAndFeel->isOpaqueAt(x, y, normalisedPos);
 }

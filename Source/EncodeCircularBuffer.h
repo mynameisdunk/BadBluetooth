@@ -6,53 +6,64 @@
 class EncodeCircularBuffer{
 public:
     
+    static constexpr int numChannels = 2;
+    static constexpr int maxBufferSize = 80;
+    
+    
     void prepare();
     
     //Process Function v
-    std::optional<std::array<float, 80>>  process(float input){
-        pushSample(input);
-        sampleCounter();
-        
-    if (sampleCount == 8){
-            sampleCount = 0;
-        
-//        DBG ("FIRING, popping buffer");
-            return popBuffer();
-        }
-    else
-        return std::nullopt;
-    }
     
-    void reset(){
-        sampleCount = 0;
+    std::optional<std::array<std::array<float, maxBufferSize>, numChannels>>
+    // optional containing <array of type <80 sample float array>, two of them>
+    process(std::array<float, numChannels> input){
+        
+        for (int ch = 0; ch < numChannels; ch++)
+            
+            pushSample(input[ch], ch);
+            sampleCounter();
+        
+        if (sampleCount == 8){
+                sampleCount = 0;
+        
+//               DBG ("FIRING, popping buffer");
+            return buffer;
+            }
+        else
+            return std::nullopt;
+        }
+        
+        void reset(){
+            sampleCount = 0;
     };
     
 private:
     
 // PRIVATE VARIABLES
-    static constexpr int maxBufferSize = 80;
-    std::array<float, maxBufferSize> buffer{};
+    
+//    std::array<float, maxBufferSize> buffer{};
+    std::array<std::array<float, maxBufferSize>, numChannels> buffer{};
     int sampleCount = 0;
 
 // PRIVATE FUNCTIONS
-    void pushSample(float input){
-        bumpBuffer();
-        buffer[0] = input;
+    void pushSample(float input, int ch){
+        bumpBuffer(ch);
+        buffer[ch][0] = input;
     };
     
-    void bumpBuffer(){
+    void bumpBuffer(int ch){
         for(int i = maxBufferSize - 1; i >0; --i){
-            buffer[i] = buffer[i-1];
+            buffer[ch][i] = buffer[ch][i-1];
         }
     };
     
     void sampleCounter(){
         sampleCount ++;
     }
-    
-    std::array<float, maxBufferSize> popBuffer(){
-        return buffer;
-    }
+//    
+//    std::array<float, maxBufferSize> popBuffer(){
+//        return buffer;
+//    }
     
     
 };
