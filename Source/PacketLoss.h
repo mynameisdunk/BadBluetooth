@@ -7,10 +7,10 @@
 class PacketLoss {
     public:
     
-    EncodedFrame process(const EncodedFrame& frame, float pathLoss){
+    StereoEncodedFrame process(const StereoEncodedFrame& frame, float pathLoss){
         
         calculateRSSI(pathLoss);
-        EncodedFrame currentFrame = frame;
+        StereoEncodedFrame currentFrame = frame;
         
         if (RSSI > goodRSSI){
             return currentFrame;}
@@ -25,20 +25,26 @@ class PacketLoss {
             calculateR();
             assessStateTransition();
         }
-    
+//        if (currentType == PLCType::simple){
+//            DBG ("simple");}
+//        
+//        else DBG ("other");
+        
         if (currentType == PLCType::simple){
             
             if (currentState == BurstState::good){
+//                DBG ("GOOD");
                 return simplePLC.processGood(currentFrame);
             }
             else {
+//                DBG ("BAD");
                 return simplePLC.processBad(currentFrame);
+
             }
         }
         
         else {
             return currentFrame;
-            // TOTALLY WRONG
         }
     }
     
@@ -136,8 +142,8 @@ class PacketLoss {
 
 // INSTANCES
     
-    EncodedFrame emptyFrame{};
-    EncodedFrame lastGoodFrame{};
+    StereoEncodedFrame emptyFrame{};
+    StereoEncodedFrame lastGoodFrame{};
     
     SimplePLC simplePLC;
     

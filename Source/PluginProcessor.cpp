@@ -90,18 +90,35 @@ void BadBluetoothProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     params.prepareToPlay(sampleRate);
     params.reset();
     
+    juce::dsp::ProcessSpec monoSpec;
+    monoSpec.sampleRate = sampleRate;
+    monoSpec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
+    monoSpec.numChannels = 1;
+    
+    juce::dsp::ProcessSpec stereoSpec;
+    stereoSpec.sampleRate = sampleRate;
+    stereoSpec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
+    stereoSpec.numChannels = 2;
+    
+    basicFiltersL.reset();
+    basicFiltersL.prepare(monoSpec);
+    basicFiltersR.reset();
+    basicFiltersR.prepare(monoSpec);
+    
+    stereoDecoder.reset();
+    stereoDecoder.prepare(stereoSpec);
   
 // set sbcParameter values (duh)
     sbcParameters.sampleRate = sampleRate;
     sbcParameters.bitPool = params.bitPool;
+    sbcParameters.concealmentType = params.concealmentType;
     
 //    frameAssemblyL.prepare(sbcParameters);
 //    frameAssemblyR.prepare(sbcParameters);
     
     pathLoss.prepare(params.distance, params.material);
     
-    decoderL.reset();
-    decoderR.reset();
+    
 }
 
 void BadBluetoothProcessor::releaseResources()
@@ -115,7 +132,7 @@ bool BadBluetoothProcessor::isBusesLayoutSupported (const BusesLayout& layouts) 
 {
     return layouts.getMainOutputChannelSet() == juce::AudioChannelSet::stereo();
 }
-#endif
+#endif //
 
 void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[maybe_unused]] juce::MidiBuffer& midiMessages)
 {
@@ -129,9 +146,8 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
     
     sbcParameters.bitPool = params.bitPool;
     sbcParameters.bitPoolResolutionScaling = params.bitPoolResolution;
-    
-    frameAssemblyL.update(sbcParameters);
-    frameAssemblyR.update(sbcParameters);
+
+    frameAssembly.update(sbcParameters);
     
     pathLoss.update(params.distance, params.material);
     float L = pathLoss.calculatePathLoss();
@@ -144,44 +160,34 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
         {
             params.smoothen();
             
-            float dryL = basicFiltersL.inputProcess(0, channelDataL[samp]);
-            float dryR = basicFiltersR.inputProcess(0, channelDataR[samp]);
+          float dryL = basicFiltersL.inputProcess(0, channelDataL[samp]);
+          float dryR = basicFiltersR.inputProcess(0, channelDataR[samp]);
             
-//            auto bufferL = cBufferL.process(dryL);
-//            auto bufferR = cBufferR.process(dryR);
+            auto stereoBlock = encodeBuffer.process({dryL, dryR}); 
             
-            auto stereoBlock = encodeBuffer.process({dryL, dryR});
-            
-            
-//            static int outerFireCount = 0;
-            
-            float outL = 0.0f;
-            float outR = 0.0f;
-
-            if (bufferL && bufferR){
-
-                frameL = frameAssemblyL.process(*bufferL, sbcParameters);
-                frameR = frameAssemblyR.process(*bufferR, sbcParameters);
+            float outL = 0.0f; float outR = 0.0f;
+            // --------------------------------------------------------------------------
+            if (stereoBlock){
+      
+                auto stereoFrame = frameAssembly.process(*stereoBlock, sbcParameters);
                 
-
-                if(frameL && frameR){
-                                
-                    // INSERT FRAME BUFFER HERE
-                    // INSERT GILBERT ELLIOT CLASS HERE
+        
+                if(stereoFrame){
                     
-                    auto frameLeft = packetLossLeft.process(*frameL, L);
-                    auto frameRight = packetLossRight.process(*frameR, L);
-//                    DBG("x = " << packetLoss.x << "    " << "L = " << packetLoss.L);
-                    
-                    decoderL.process(frameLeft);
-                    decoderR.process(frameRight);
-                    
-                    frameL.reset();
-                    frameR.reset();
+                    stereoFrame = packetLoss.process(*stereoFrame, L);
+                    stereoDecoder.process(*stereoFrame);
+                    stereoFrame.reset();
                 }
             }
-            outL = decoderL.getNextSample();
-            outR = decoderR.getNextSample();
+            
+            outL = stereoDecoder.getNextSample(0);
+            outR = stereoDecoder.getNextSample(1);
+        
+            // wrap all of this within a state machine which switches between concealment types
+        
+        // --------------------------------------------------------------------------
+            
+            // This is where I want to insert the loss Concealment class
             
             channelDataL[samp] = basicFiltersL.outputProcess(0, outL);
             channelDataR[samp] = basicFiltersR.outputProcess(0, outR);

@@ -43,6 +43,10 @@ class DecodeCircularBuffer {
         
     }
     
+    void reset(){
+        buffer.fill(0.0f);
+        output.fill(0.0f);
+    }
     
     private:
     

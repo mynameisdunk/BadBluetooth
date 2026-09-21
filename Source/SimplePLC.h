@@ -7,20 +7,26 @@ class SimplePLC {
     
     public:
     
-    EncodedFrame processGood(const EncodedFrame& frame){
-    
-        EncodedFrame currentFrame = frame;
+    StereoEncodedFrame processGood(const StereoEncodedFrame& frame){
+        
+        StereoEncodedFrame currentFrame = frame;
         burstCounter = 0;
-        lastGoodFrame = currentFrame;
-        currentFrame.concealmentGain = 1.0f;
+        
+        for (int ch = 0; ch < 2; ch++){
+            
+            lastGoodFrame[ch] = currentFrame[ch];
+            currentFrame[ch].concealmentGain = 1.0f;
+        }
         return currentFrame;
         
     }
     
-    EncodedFrame processBad(const EncodedFrame& frame){
+    StereoEncodedFrame processBad(const StereoEncodedFrame& frame){
         
         burstCounter ++;
-        lastGoodFrame.concealmentGain = std::pow(burstDecayRate, burstCounter);
+        for (int ch = 0; ch < 2; ch++){
+            lastGoodFrame[ch].concealmentGain = std::pow(burstDecayRate, burstCounter);
+        }
         return lastGoodFrame;
     }
     
@@ -31,7 +37,7 @@ class SimplePLC {
     
     float burstDecayRate = 0.6f;
     
-    EncodedFrame lastGoodFrame{};
-    EncodedFrame emptyFrame{};
+    StereoEncodedFrame lastGoodFrame{};
+    StereoEncodedFrame emptyFrame{};
 };
 

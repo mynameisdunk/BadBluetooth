@@ -2,6 +2,9 @@
 #pragma once
 
 using Frame = std::array<std::array<float, 8>, 16>;
+using StereoFrame = std::array<Frame, 2>;
+
+using StereoBlock = std::optional<std::array<std::array<float, 80>, 2>>;
 
 struct SBCParameters{
     
@@ -13,6 +16,7 @@ struct SBCParameters{
     int allocationMethod = 0;
     int bitPool = 2;
     float bitPoolResolutionScaling = 1.0f;
+    int concealmentType = 1;
 };
 
 struct ReconstructionValues{
@@ -33,7 +37,7 @@ struct EncodedFrame{
     float concealmentGain = 1.0f;
 };
 
-
+using StereoEncodedFrame = std::array<EncodedFrame, 2>;
 
 
 /*

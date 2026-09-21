@@ -6,6 +6,7 @@ const juce::ParameterID bitPoolParamID {"bitPool", 1};
 const juce::ParameterID bitPoolResolutionParamID {"bitPoolResolution", 1};
 const juce::ParameterID distanceParamID {"distance", 1};
 const juce::ParameterID materialParamID {"material", 1};
+const juce::ParameterID concealmentTypeParamID {"concealment", 1};
 
 
 class Parameters
@@ -25,6 +26,8 @@ public:
     float distance = 0.0f;
     float material = 0.0f;
     
+    int concealmentType = 1;
+    
 private:
     
     juce::AudioParameterFloat* gainParam;
@@ -41,5 +44,7 @@ private:
     
     juce::AudioParameterFloat* materialParam;
     juce::LinearSmoothedValue<float> materialSmoother;
+    
+    juce::AudioParameterInt* concealmentTypeParam;
     
 };

@@ -111,7 +111,7 @@ class ScaleFactoring{
     float sensitivity = 1.0f;
     
     static constexpr float sensitivityMin = 1.0f;
-    static constexpr float sensitivityMax = 8.0f;
+    static constexpr float sensitivityMax = 1.0f;
     
 };
 

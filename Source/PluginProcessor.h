@@ -17,6 +17,7 @@
 #include "Decoder.h"
 #include "PathLoss.h"
 #include "PacketLoss.h"
+#include "StateMachine.h"
 
 
 
@@ -76,23 +77,19 @@ private:
     
     Parameters params;
     
-    EncodeCircularBuffer cBufferL;
-    EncodeCircularBuffer cBufferR;
-    
     EncodeCircularBuffer encodeBuffer;
     
-    FrameAssembly frameAssemblyL;
-    FrameAssembly frameAssemblyR;
+    FrameAssembly frameAssembly;
     
     SBCParameters sbcParameters;
     
-    Decoder decoderL;
-    Decoder decoderR;
+    Decoder stereoDecoder;
     
     PathLoss pathLoss;
+
+    PacketLoss packetLoss;
     
-    PacketLoss packetLossLeft;
-    PacketLoss packetLossRight;
+    StateMachine stateMachine;
     
     
     

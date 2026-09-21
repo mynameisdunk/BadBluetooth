@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include <optional>
+#include "DataStructures.h"
 
 class EncodeCircularBuffer{
 public:
@@ -14,7 +15,7 @@ public:
     
     //Process Function v
     
-    std::optional<std::array<std::array<float, maxBufferSize>, numChannels>>
+    StereoBlock
     // optional containing <array of type <80 sample float array>, two of them>
     process(std::array<float, numChannels> input){
         
@@ -28,14 +29,15 @@ public:
         
 //               DBG ("FIRING, popping buffer");
             return buffer;
-            }
+        }
+        
         else
             return std::nullopt;
         }
         
-        void reset(){
-            sampleCount = 0;
-    };
+    void reset(){
+        sampleCount = 0;
+    }
     
 private:
     

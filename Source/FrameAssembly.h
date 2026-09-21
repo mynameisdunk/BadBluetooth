@@ -14,45 +14,49 @@ class FrameAssembly{
  
     void prepare();
     void update(SBCParameters& parameters){
-        
-        scaleFactoring.update(parameters);
-        
+        for (int ch = 0; ch < 2; ch++){
+            scaleFactoring[ch].update(parameters);
+        }
     };
     void reset();
 
 // ------------------------------------------------------------------------------------
     
     //process function
-    std::optional<EncodedFrame> process (std::array<float, 80> samples, const SBCParameters& parameters)
+    std::optional<StereoEncodedFrame> process (const StereoBlock& samples, const SBCParameters& parameters)
     {
         
-        auto currentBlock = analysisFilter.process(samples);
-
-        frame[frameCount] = currentBlock;
-        scaleFactoring.process(currentBlock);
-        frameCount++;
-        
-        if (frameCount ==16)
-        {
-            frameCount = 0;
-            EncodedFrame result;
+        for (int ch = 0; ch < 2; ch++){
             
-            result.sbcParameters.bitPoolResolutionScaling = parameters.bitPoolResolutionScaling;
-            result.encodedAudioValues.scaleFactors = scaleFactoring.quantise();
-            result.encodedAudioValues.scaleFactorIndex = scaleFactoring.getScaleFactorIndex();
-            result.encodedAudioValues.bitLevel = setBitLevel(result, parameters);
+            auto currentBlock = analysisFilter.process((*samples)[ch]);
+            stereoFrame[ch][frameCount] = currentBlock;
+            scaleFactoring[ch].process(currentBlock);
             
-//            DBG(parameters.bitPool);
-            
-            quantisedSamples = *quantisation.quantiseSamples(result, frame);
-
-            setEncodedFrameValues(result, parameters);
-
-            scaleFactoring.reset();
-            
-            return result;
         }
-        
+            frameCount++;
+            
+            if (frameCount ==16)
+            {
+                frameCount = 0;
+                StereoEncodedFrame result;
+                
+                for(int ch = 0; ch < 2; ch++){
+                    
+                    result[ch].sbcParameters.bitPoolResolutionScaling = parameters.bitPoolResolutionScaling;
+                    result[ch].encodedAudioValues.scaleFactors = scaleFactoring[ch].quantise();
+                    result[ch].encodedAudioValues.scaleFactorIndex = scaleFactoring[ch].getScaleFactorIndex();
+                    result[ch].encodedAudioValues.bitLevel = setBitLevel(result[ch], parameters);
+                    
+                    //            DBG(parameters.bitPool);
+                    
+                    quantisedSamples = *quantisation.quantiseSamples(result[ch], stereoFrame[ch]);
+                    
+                    setEncodedFrameValues(result[ch], parameters);
+                    
+                    scaleFactoring[ch].reset();
+                }
+                    return result;
+            }
         return std::nullopt;
         
     };
@@ -91,11 +95,15 @@ class FrameAssembly{
     
 // INSTANCES
     Frame frame{};
+    StereoFrame stereoFrame{};
     Frame quantisedSamples{};
-    
     
     AnalysisFilter analysisFilter;
     BitAllocation bitAllocation;
-    ScaleFactoring scaleFactoring;
     Quantisation quantisation;
+    
+    std::array<ScaleFactoring, 2> scaleFactoring;
 };
+
+
+

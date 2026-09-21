@@ -20,6 +20,9 @@
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="BBSfHI" name="StateMachine.cpp" compile="1" resource="0"
+            file="Source/StateMachine.cpp"/>
+      <FILE id="ewmNiL" name="StateMachine.h" compile="0" resource="0" file="Source/StateMachine.h"/>
       <FILE id="PyDwKH" name="SimplePLC.h" compile="0" resource="0" file="Source/SimplePLC.h"/>
       <FILE id="QYDhFS" name="ioFiltering.h" compile="0" resource="0" file="Source/ioFiltering.h"/>
       <FILE id="ZqTOgc" name="LossCircularBuffer.h" compile="0" resource="0"

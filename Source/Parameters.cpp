@@ -15,6 +15,7 @@ Parameters::Parameters(juce::AudioProcessorValueTreeState& apvts)
     castParameter(apvts, bitPoolResolutionParamID, bitPoolResolutionParam);
     castParameter(apvts, distanceParamID, distanceParam);
     castParameter(apvts, materialParamID, materialParam);
+    castParameter(apvts, concealmentTypeParamID, concealmentTypeParam);
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterLayout()
@@ -31,6 +32,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterL
     
     layout.add(std::make_unique<juce::AudioParameterFloat>(materialParamID, "Material", juce::NormalisableRange<float>{0.0f, 10.0f, 0.5f}, 1.0f));
     
+    layout.add(std::make_unique<juce::AudioParameterInt>(concealmentTypeParamID, "Concealment", 1, 2, 1));
+    
+   
     return layout;
 }
 
@@ -45,6 +49,8 @@ void Parameters::update() noexcept
     distanceSmoother.setTargetValue(distanceParam->get());
     
     materialSmoother.setTargetValue(materialParam->get());
+    
+    concealmentTypeParam->get();
 }
 
 void Parameters::prepareToPlay(double sampleRate) noexcept
@@ -75,6 +81,8 @@ void Parameters::reset() noexcept
     
     material = materialParam->get();
     materialSmoother.setCurrentAndTargetValue(materialParam->get());
+    
+    concealmentType = 1;
 }
 
 void Parameters::smoothen() noexcept
