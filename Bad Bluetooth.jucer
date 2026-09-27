@@ -20,6 +20,9 @@
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="rz4xA8" name="PitchDetection.h" compile="0" resource="0"
+            file="Source/PitchDetection.h"/>
+      <FILE id="wUeuf5" name="GilbertElliot.h" compile="0" resource="0" file="Source/GilbertElliot.h"/>
       <FILE id="BBSfHI" name="StateMachine.cpp" compile="1" resource="0"
             file="Source/StateMachine.cpp"/>
       <FILE id="ewmNiL" name="StateMachine.h" compile="0" resource="0" file="Source/StateMachine.h"/>

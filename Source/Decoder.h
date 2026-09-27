@@ -8,7 +8,7 @@
 #include "SynthesisFilter.h"
 #include "DecodeCircularBuffer.h"
 #include "OutputQueue.h"
-#include "LossConcealment.h"
+
 
 class Decoder{
     public:
@@ -48,8 +48,7 @@ class Decoder{
     float getNextSample(int ch){
 
         float output = outputQueue[ch].pop() * outputGain[ch];
-        // pass output to loss concealment buffer
-        lossConcealment[ch].process(output);
+
         return output;
 
     }
@@ -59,7 +58,6 @@ class Decoder{
         for (int ch = 0; ch < numChannels; ch++){
             outputQueue[ch].reset();
             decodeBuffer[ch].reset();
-            lossConcealment[ch].reset();
         }
 
     }
@@ -104,7 +102,7 @@ class Decoder{
     std::array<DecodeCircularBuffer, 2> decodeBuffer{};
     std::array<ReconstructionValues, 2> reconstructionValues{};
     std::array<OutputQueue, 2> outputQueue{};
-    std::array<LossConcealment, 2> lossConcealment;
+
 
 
 // DBG variables

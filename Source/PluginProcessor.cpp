@@ -87,8 +87,8 @@ void BadBluetoothProcessor::changeProgramName (int index, const juce::String& ne
 //==============================================================================
 void BadBluetoothProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    params.prepareToPlay(sampleRate);
     params.reset();
+    params.prepareToPlay(sampleRate);
     
     juce::dsp::ProcessSpec monoSpec;
     monoSpec.sampleRate = sampleRate;
@@ -99,6 +99,8 @@ void BadBluetoothProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     stereoSpec.sampleRate = sampleRate;
     stereoSpec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
     stereoSpec.numChannels = 2;
+    
+   
     
     basicFiltersL.reset();
     basicFiltersL.prepare(monoSpec);
@@ -117,6 +119,9 @@ void BadBluetoothProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
 //    frameAssemblyR.prepare(sbcParameters);
     
     pathLoss.prepare(params.distance, params.material);
+    
+    stateMachine.reset();
+    stateMachine.prepare(static_cast<int>(sampleRate));
     
     
 }
@@ -143,6 +148,7 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
         buffer.clear(i, 0, buffer.getNumSamples());
     
     params.update();
+    stateMachine.update(params.concealmentType);
     
     sbcParameters.bitPool = params.bitPool;
     sbcParameters.bitPoolResolutionScaling = params.bitPoolResolution;
@@ -166,32 +172,15 @@ void BadBluetoothProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[ma
             auto stereoBlock = encodeBuffer.process({dryL, dryR}); 
             
             float outL = 0.0f; float outR = 0.0f;
-            // --------------------------------------------------------------------------
-            if (stereoBlock){
-      
-                auto stereoFrame = frameAssembly.process(*stereoBlock, sbcParameters);
-                
-        
-                if(stereoFrame){
-                    
-                    stereoFrame = packetLoss.process(*stereoFrame, L);
-                    stereoDecoder.process(*stereoFrame);
-                    stereoFrame.reset();
-                }
-            }
             
-            outL = stereoDecoder.getNextSample(0);
-            outR = stereoDecoder.getNextSample(1);
-        
-            // wrap all of this within a state machine which switches between concealment types
-        
-        // --------------------------------------------------------------------------
+            // state Machine is dependent on the state of audio received
+            auto output = stateMachine.process(stereoBlock, sbcParameters, L);
             
-            // This is where I want to insert the loss Concealment class
+            outL = output[0];
+            outR = output[1];
             
             channelDataL[samp] = basicFiltersL.outputProcess(0, outL);
             channelDataR[samp] = basicFiltersR.outputProcess(0, outR);
-            // Can I include a state machine here which, depending on the value of the concealment mode parameters switches to one method which conceals audio at the frame scale and another which works at the sample scale?
             
             //  I also want to add in a scrambling feature as part of one of the concealment methods which means I need to think about how that will work in both frame and sample scale.
         }

@@ -7,14 +7,13 @@ using StereoFrame = std::array<Frame, 2>;
 using StereoBlock = std::optional<std::array<std::array<float, 80>, 2>>;
 
 struct SBCParameters{
-    
     int sampleRate;
     int nrofSubbands = 8;
     int nrofBlocks = 16;
     int nrofChannels = 2;
     int channelMode = 0;
     int allocationMethod = 0;
-    int bitPool = 2;
+    int bitPool = 50;
     float bitPoolResolutionScaling = 1.0f;
     int concealmentType = 1;
 };
@@ -39,6 +38,7 @@ struct EncodedFrame{
 
 using StereoEncodedFrame = std::array<EncodedFrame, 2>;
 
+enum class BurstState {good, bad, fail};
 
 /*
                     ADDING PARAMETERS - ORDER OF PRIORITY && NOTES

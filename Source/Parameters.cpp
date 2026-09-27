@@ -50,7 +50,7 @@ void Parameters::update() noexcept
     
     materialSmoother.setTargetValue(materialParam->get());
     
-    concealmentTypeParam->get();
+    concealmentType = concealmentTypeParam->get();
 }
 
 void Parameters::prepareToPlay(double sampleRate) noexcept
