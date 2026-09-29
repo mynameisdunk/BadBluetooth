@@ -93,13 +93,15 @@ private:
     
     
     
-// PRIVATE VARIABLES
+// PRIVATE VARIABLES    
     
     std::array<float, 80> weightedL{};
     std::array<float, 80> weightedR{};
     
     std::optional<EncodedFrame> frameL;
     std::optional<EncodedFrame> frameR;
+    
+    static constexpr int totalLatencySamples = 199;
     
     
     //==============================================================================

@@ -82,5 +82,5 @@ enum class BurstState {good, bad, fail};
  IF the plugin is to be mega succesfl all of the research I've done for this allocation method will need to be repeated for the other more sophisticated methods of bluetooth audio transmission
  
  Ideally the plugin will be able to demonstrate a sound and logical representation of at least 3 kinds of bluetooth audio transmission
- 
+
  */

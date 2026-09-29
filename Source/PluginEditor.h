@@ -13,6 +13,7 @@
 #include "RotaryKnob.h"
 #include "Parameters.h"
 #include "LookAndFeel.h"
+#include "Colours.h"
 
 //==============================================================================
 /**
@@ -34,15 +35,20 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     BadBluetoothProcessor& audioProcessor;
-    
-    RotaryKnob bitPoolKnob{"BitPool", audioProcessor.apvts, bitPoolParamID, false, false};
-    RotaryKnob bitPoolResolutionKnob{"BitPoolResolution", audioProcessor.apvts, bitPoolResolutionParamID, false, false};
-    
+
+    RotaryKnob bitPoolKnob{"BitPool", audioProcessor.apvts, bitPoolParamID, false};
+    RotaryKnob sensitivityKnob{"Sensitivity", audioProcessor.apvts, bitPoolResolutionParamID, false};
+    RotaryKnob distanceKnob{"Distance", audioProcessor.apvts, distanceParamID, false};
+    RotaryKnob materialKnob{"Material", audioProcessor.apvts, materialParamID, false};
+    RotaryKnob concealmentKnob{"Concealment", audioProcessor.apvts, concealmentTypeParamID, false};
+
     juce::Label bitPoolLabel;
     juce::Label bitPoolResolutionLabel;
-    
+
     juce::Image bypassedImage, pressedImage, activeImage;
     PedalState currentState = PedalState::Bypassed;
-
+    
+    float pi = juce::MathConstants<float>::pi;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BadBluetoothProcessorEditor)
 };

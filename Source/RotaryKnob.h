@@ -20,13 +20,12 @@ public:
     void setFilmStrip(const juce::Image& stripImage, int numFrames, bool isHorizontal = false);
     
     juce::Slider slider;  //    -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -     // This is what it attaches to
-//    juce::Label label;
+    juce::Label label;
     
     juce::AudioProcessorValueTreeState::SliderAttachment attachment;            // This is an attachment (duh) but ^^
     
     // Any attachment must be declared AFTER the component it attaches to
 
-    
 private:
     
     std::unique_ptr<FilmStripLookAndFeel> filmStripLookAndFeel;

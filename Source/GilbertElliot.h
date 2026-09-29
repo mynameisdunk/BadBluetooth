@@ -135,15 +135,3 @@ class GilbertElliot{
     
 };
 
-/*
- 
- if (splitPathLoss){
-     output[0] = lossConcealmentL.process(stereoDecoder.getNextSample(0));
-     output[1] = lossConcealmentR.process(stereoDecoder.getNextSample(1));
- }
- 
- else {
-     output[0] = lossConcealment.process(stereoDecoder.getNextSample(0));
-     output[1] = lossConcealment.process(stereoDecoder.getNextSample(1));
- }
- */

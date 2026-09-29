@@ -58,7 +58,7 @@ class PathLoss{
     }
     
     float calculatePathLoss(){
-        L = (10.0f * n) * std::log(d);
+        L = (10.0f * n) * std::log10(d);
         
         return L;
     }

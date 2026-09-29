@@ -87,6 +87,7 @@ void BadBluetoothProcessor::changeProgramName (int index, const juce::String& ne
 //==============================================================================
 void BadBluetoothProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    setLatencySamples(totalLatencySamples);
     params.reset();
     params.prepareToPlay(sampleRate);
     

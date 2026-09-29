@@ -20,6 +20,17 @@
       <FILE id="LmCzTC" name="Logo V1.png" compile="0" resource="1" file="../../../Documents/Code/Resources/Logo V1.png"/>
     </GROUP>
     <GROUP id="{6D104F5E-33D0-2E94-AA54-4CA7D5961A04}" name="Source">
+      <FILE id="OnVUOZ" name="PedalButtonLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/PedalButtonLookAndFeel.cpp"/>
+      <FILE id="qdMRM6" name="PedalButtonLookAndFeel.h" compile="0" resource="0"
+            file="Source/PedalButtonLookAndFeel.h"/>
+      <FILE id="PeZe7R" name="RotaryKnobLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/RotaryKnobLookAndFeel.cpp"/>
+      <FILE id="CeaWKX" name="RotaryKnobLookAndFeel.h" compile="0" resource="0"
+            file="Source/RotaryKnobLookAndFeel.h"/>
+      <FILE id="aBxgGL" name="Fonts.cpp" compile="1" resource="0" file="Source/Fonts.cpp"/>
+      <FILE id="AghHXD" name="Fonts.h" compile="0" resource="0" file="Source/Fonts.h"/>
+      <FILE id="wfW7z7" name="Colours.h" compile="0" resource="0" file="Source/Colours.h"/>
       <FILE id="rz4xA8" name="PitchDetection.h" compile="0" resource="0"
             file="Source/PitchDetection.h"/>
       <FILE id="wUeuf5" name="GilbertElliot.h" compile="0" resource="0" file="Source/GilbertElliot.h"/>

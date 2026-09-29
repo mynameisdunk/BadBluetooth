@@ -26,11 +26,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterL
     
     layout.add(std::make_unique<juce::AudioParameterFloat>(bitPoolParamID, "BitPoolValue", juce::NormalisableRange<float>{2.0f, 42.0f, 0.1f, 0.7f}, 16.0f));
     
-    layout.add(std::make_unique<juce::AudioParameterFloat>(bitPoolResolutionParamID, "Sensitivity", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 1.0f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(bitPoolResolutionParamID, "Sensitivity", juce::NormalisableRange<float> {1.0f, 10.0f, 0.01f}, 1.0f));
     
     layout.add(std::make_unique<juce::AudioParameterFloat>(distanceParamID, "Distance", juce::NormalisableRange<float>{0.0f, 20.0f, 0.01f}, 1.0f));
     
-    layout.add(std::make_unique<juce::AudioParameterFloat>(materialParamID, "Material", juce::NormalisableRange<float>{0.0f, 10.0f, 0.5f}, 1.0f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(materialParamID, "Material", juce::NormalisableRange<float>{0.0f, 10.0f, 0.1f}, 1.0f));
     
     layout.add(std::make_unique<juce::AudioParameterInt>(concealmentTypeParamID, "Concealment", 1, 2, 1));
     
